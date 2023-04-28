@@ -1,7 +1,7 @@
 const currentPlayer = document.querySelector(".currentPlayer");
 
 let selected;
-let player = "X";
+let player = "X"
 
 let positions = [
   [1, 2, 3],
@@ -42,24 +42,62 @@ function newMove(e) {
 }
 
 function check() {
+  
+  
   let playerLastMove = player === "X" ? "O" : "X";
-
+  
   const items = selected
-    .map((item, i) => [item, i])
-    .filter((item) => item[0] === playerLastMove)
-    .map((item) => item[1]);
+  .map((item, i) => [item, i])
+  .filter((item) => item[0] === playerLastMove)
+  .map((item) => item[1]);
   
   for (pos of positions) {
     if (pos.every((item) => items.includes(item))) {
-      alert("O JOGADOR '" + playerLastMove + "' GANHOU!");
+      
+      const notification = document.getElementById("notification");
+      const h1 = document.createElement("h1");
+      const h2 = document.createElement("h2");
+      let msg = null;
+
+      notification.style.display = "block";
+      notification.appendChild(h1);
+      notification.appendChild(h2);
+
+      h1.innerHTML = "O JOGADOR ' " + playerLastMove + " ' GANHOU!";
       init();
+
+      let count = 3;
+      setInterval(() => {
+        h2.innerHTML = `REINICIANDO EM ${count--}`
+      }, 1000);
+
+      setTimeout(() => location.reload(), 4000);
+
       return;
     }
   }
 
   if (selected.filter((item) => item).length === 9) {
-    alert("DEU EMPATE!");
+    const notification = document.getElementById("notification");
+    const h1 = document.createElement("h1");
+    const h2 = document.createElement("h2");
+    let msg = null;
+
+
+    notification.style.display = "block";
+    notification.appendChild(h1);
+    notification.appendChild(h2);
+
+    h1.innerHTML = "DEU EMPATE!";
     init();
+
+    let count = 3;
+    setInterval(() => {
+      h2.innerHTML = `REINICIANDO EM ${count--}`
+    }, 1000);
+
+    setTimeout(() => location.reload(), 4000);
+
     return;
   }
 }
